@@ -1,0 +1,115 @@
+# -*- coding: iso8859-1 -*-
+## -----------------------------------------------------
+## Pushover   ### V0.90
+##
+## created at: 2015-12-30 00:10
+## -----------------------------------------------------
+## Copyright � 2015, Jean-Paul Otto, All rights reserved.
+##
+## This program is free software; you can redistribute it and/or modify it under the terms
+## of the GNU General Public License as published by the Free Software Foundation; either
+## version 3 of the License, or (at your option) any later version.
+##
+## This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+## without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+## See the GNU General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License along with this program;
+## if not, see <http://www.gnu.de/documents/gpl-3.0.de.html>.
+
+## -- 
+## -- <h1>19626_Pushover.hsl</h1>
+## -- <p>Gira Homeserver to <a href="https://pushover.net">Pushover</a> API Logic module</p>
+## -- <p>Ever wanted to receive notifications from your Gira Homeserver in <a href="https://pushover.net">Pushover</a>? Look no further! This logic module does just that.</p>
+## -- <p>The possibilities are endless. Get notified if your front door opens, or if an alarm is triggered, or if the temperature in your house is to low. You name it, you've got it!</p>
+## -- <h2>Installation</h2>
+## -- <p>Just copy <code>19626_Pushover_Vx.xx.hsl</code> to the logic folder of your HomeServer and (re)start HomeServer Experte. You'll find the module in the folder Smarterliving.</p>
+## -- <h2>Usage</h2>
+## -- <p>Create (at least) two new HS Internal <em>14-Byte text</em> Objects:</p>
+## -- <ul>
+## -- <li>Pushover Message</li>
+## -- <li>Pushover Status</li>
+## -- </ul>
+## -- <p>Using the Graphic Logic Editor, create a new worksheet and add the Smarterliving\Pushover logic element to the worksheet.</p>
+## -- <h4>Input 1 - Pushover URL</h4>
+## -- <p><strong>Required:</strong> Copy/Paste your Pushover API URL in this field. This URL currently defaults to:
+## -- <code>https://api.pushover.net/1/messages.json</code></p>
+## -- <h4>Input 2 - Message</h4>
+## -- <p><strong>Required:</strong> Connect this input with the HS Internal Communication Object <code>Pushover Message</code> that you've created earlier.</p>
+## -- <h4>Input 3 - Token</h4>
+## -- <p><strong>Required:</strong> Pushover Application Token. You'll get one after you've created a Pushover Application.</p>
+## -- <h4>Input 4 - User</h4>
+## -- <p><strong>Required</strong>: Pushover User ID. You'll find this in your dashboard.</p>
+## -- <h4>Input 5, 6, 7, 8, 10 and 11</h4>
+## -- <p><em>Optional:</em> You can customize your message using these fields according to the Pushover documentation</p>
+## -- <h4>Input 9 - Priority</h4>
+## -- <p><em>Optional:</em> Pushover offers a few priorities for messages. All priorities, except <code>2</code> are supported. Priority <code>2</code> requires logic for accepting client/device acknowledgements. This functionality is currently not planned for 19626_Pushover.</p>
+## -- <h4>Output 1 - Status</h4>
+## -- <p>Currently 19626_Pushover does not output a status, but at least one output is required by the HomeServer. Connect this output to the HS Internal Communication Object <code>Pushover Status</code> that you've created earlier.</p>
+## -- <p>You are now ready to start using 19626_Pushover! Using any of the supported means to set a value to a Communication Object will send your message to Pushover right away.</p>
+## -- <h2>Files Included</h2>
+## -- <ul>
+## -- <li>19626_Pushover_Vx.xx.hsl - HomeServer Logic file. Copy this to your logic folder.</li>
+## -- <li>19626_Pushover.py - Source in Python</li>
+## -- <li>log19626.html - Helpfile. Copy this to html\de or html\en</li>
+## -- <li>LICENSE - GNU v3 Public License</li>
+## -- <li><a href="http://LogikGen.py">LogikGen.py</a> - KNX-User-Forum Logik Tester, very useful tool if you want to debug logic modules. Used by <a href="http://test.sh">test.sh</a></li>
+## -- <li><a href="http://test.sh">test.sh</a> - simple script that compiles the source and starts LogikGen for debugging.</li>
+## -- <li><a href="http://README.md">README.md</a> - this file</li>
+## -- </ul>
+## -- <h2>Support</h2>
+## -- <p>Non whatsoever. Feel free to raise an issue on Github though and/or ask for help at <a href="http://knx-user-forum.de">KNX-User-Forum</a>.</p>
+## -- <p>The module was tested and runs succesfully on a HomeServer 4 with Experte 4.4 (4.4.0.151203R). However, I'm not an active user of <a href="https://pushover.net">Pushover</a> and created this Logic module just as a "proof of concept".</p>
+## -- <h2>Credits</h2>
+## -- <p>Credits where credits are due!</p>
+## -- <p>Out of the box a Gira HomeServer can do many things, however connecting to <a href="https://pushover.net">Pushover</a>, which requires the use of well established standards like HTTPS, POST and JSON is a step to far for a Gira HomeServer.</p>
+## -- <p>Luckily some fine folks at the German <a href="http://knx-user-forum.de">KNX User Forum</a> have found a way to extend the HomeServer logic modules, which are written in a subset of the Python language, enabling developers to use almost all of the full power of the Python language and it's built-in modules like json, urllib2 etc.</p>
+## -- <p>This logic module would not be possible without their efforts.</p>
+## -- <h2>Roadmap</h2>
+## -- <p>I'm not an active user of <a href="https://pushover.net">Pushover</a>, so I have no further plans.</p>
+## -- <p>However, as this is open source and this module is available on <a href="https://github.com/ottonet/19626_Pushover">Github</a> feel free to issue a PR if you have the time and knowledge to add new features or fix bugs!</p>
+## -- 
+## -- 
+
+#5000|"Text"|Remanent(1/0)|Anz.Eing�nge|.n.|Anzahl Ausg�nge|.n.|.n.
+#5001|Anzahl Eing�nge|Ausg�nge|Offset|Speicher|Berechnung bei Start
+#5002|Index Eingang|Default Wert|0=numerisch 1=alphanummerisch
+#5003|Speicher|Initwert|Remanent
+#5004|ausgang|Initwert|runden bin�r (0/1)|typ (1-send/2-sbc)|0=numerisch 1=alphanummerisch
+#5012|abbruch bei bed. (0/1)|bedingung|formel|zeit|pin-ausgang|pin-offset|pin-speicher|pin-neg.ausgang
+
+5000|"Smarterliving\Pushover_V0.90"|0|11|"Pushover Webhook URL"|"Message"|"Token"|"User"|"Device"|"Title"|"Url"|"Urltitle"|"Priority"|"Timestamp"|"Sound"|1|"Status"
+
+5001|11|1|0|1|1
+
+# EN[x]
+5002|1|"https://api.pushover.net/1/messages.json"|1 #* Pushover Webhook URL
+5002|2|""|1 #* Pushover Message
+5002|3|""|1 #* Token
+5002|4|""|1 #* User
+5002|5|""|1 #* Device
+5002|6|""|1 #* Title
+5002|7|""|1 #* Url
+5002|8|""|1 #* Urltitle
+5002|9|""|1 #* Priority
+5002|10|""|1 #* Timestamp
+5002|11|""|1 #* Sound
+
+# Speicher
+5003|1||0 #* Class storage
+
+# Ausg�nge
+5004|1|""|0|1|1 #* Status
+
+#################################################
+
+5012|0|"EI"|"eval(compile(__import__('base64').decodestring('CmlmIEVJID09IDE6CiAgICBnbG9iYWwgc29ja2V0CiAgICBpbXBvcnQgc29ja2V0CiAgICBpZiBub3QgaGFzYXR0cihzb2NrZXQsIl9oc19kbnNyZXNvbHZlciIpOgogICAgICAgIHNvY2tldC5fc29ja2V0X2dldGFkZHJpbmZvID0gc29ja2V0LmdldGFkZHJpbmZvCiAgICAgICAgc29ja2V0Ll9oc19kbnNyZXNvbHZlciA9IHNlbGYuTUMuRE5TUmVzb2x2ZXIuZ2V0SG9zdElQCiAgICAgICAgZGVmIF9oc2dldGFkZHJpbmZvKGhvc3QsIHBvcnQsIGZhbWlseT0wLCBzb2NrdHlwZT0wLCBwcm90bz0wLCBmbGFncz0wKToKICAgICAgICAgICAgcmV0dXJuIHNvY2tldC5fc29ja2V0X2dldGFkZHJpbmZvKHNvY2tldC5faHNfZG5zcmVzb2x2ZXIoaG9zdCkscG9ydCwgZmFtaWx5LHNvY2t0eXBlLHByb3RvLGZsYWdzKQogICAgICAgIHNvY2tldC5nZXRhZGRyaW5mbyA9IF9oc2dldGFkZHJpbmZvCiAgICBjbGFzcyBwdXNob3Zlcl9tZXNzYWdlKG9iamVjdCk6CiAgICAgICAgZGVmIF9faW5pdF9fKHNlbGYsIHVybCk6CiAgICAgICAgICAgIHNlbGYudXJsID0gdXJsCiAgICAgICAgICAgIHByaW50IHVybAogICAgICAgIGRlZiBzZW5kbXNnKHNlbGYsIF9tZXNzYWdlLCBfdG9rZW4sIF91c2VyLCBfZGV2aWNlLCBfdGl0bGUsIF91cmwsIF91cmx0aXRsZSwgX3ByaW9yaXR5LCBfdGltZXN0YW1wLCBfc291bmQpOgogICAgICAgICAgICBpbXBvcnQgdXJsbGliLHVybGxpYjIKICAgICAgICAgICAgbXNnID0ge30KICAgICAgICAgICAgaWYgX21lc3NhZ2U6CiAgICAgICAgICAgICAgICBtc2cudXBkYXRlKHsnbWVzc2FnZSc6IF9tZXNzYWdlfSkKICAgICAgICAgICAgaWYgX3Rva2VuOgogICAgICAgICAgICAgICAgbXNnLnVwZGF0ZSh7J3Rva2VuJzogX3Rva2VufSkKICAgICAgICAgICAgaWYgX3VzZXI6CiAgICAgICAgICAgICAgICBtc2cudXBkYXRlKHsndXNlcic6IF91c2VyfSkKICAgICAgICAgICAgaWYgX2RldmljZToKICAgICAgICAgICAgICAgIG1zZy51cGRhdGUoeydkZXZpY2UnOiBfZGV2aWNlfSkKICAgICAgICAgICAgaWYgX3RpdGxlOgogICAgICAgICAgICAgICAgbXNnLnVwZGF0ZSh7J3RpdGxlJzogX3RpdGxlfSkKICAgICAgICAgICAgaWYgX3VybDoKICAgICAgICAgICAgICAgIG1zZy51cGRhdGUoeyd1cmwnOiBfdXJsfSkKICAgICAgICAgICAgaWYgX3VybHRpdGxlOgogICAgICAgICAgICAgICAgbXNnLnVwZGF0ZSh7J3VybF90aXRsZSc6IF91cmx0aXRsZX0pCiAgICAgICAgICAgIGlmIF9wcmlvcml0eToKICAgICAgICAgICAgICAgIG1zZy51cGRhdGUoeydwcmlvcml0eSc6IGludChfcHJpb3JpdHkpfSkKICAgICAgICAgICAgaWYgX3RpbWVzdGFtcDoKICAgICAgICAgICAgICAgIG1zZy51cGRhdGUoeyd0aW1lc3RhbXAnOiBpbnQoX3RpbWVzdGFtcCl9KQogICAgICAgICAgICBpZiBfc291bmQ6CiAgICAgICAgICAgICAgICBtc2cudXBkYXRlKHsnc291bmQnOiBfc291bmR9KQogICAgICAgICAgICBwcmludCBtc2cKICAgICAgICAgICAgcmVxID0gdXJsbGliMi5SZXF1ZXN0KHNlbGYudXJsLAogICAgICAgICAgICAgICAgaGVhZGVycyA9IHsKICAgICAgICAgICAgICAgICAgICAiQ29udGVudC1UeXBlIjogImFwcGxpY2F0aW9uL3gtd3d3LWZvcm0tdXJsZW5jb2RlZCIsCiAgICAgICAgICAgICAgICAgICAgIkFjY2VwdCI6ICIqLyoiLAogICAgICAgICAgICAgICAgICAgICJVc2VyLUFnZW50IjogJ0dpcmEgSG9tZVNlcnZlciBQdXNob3ZlciAoMTk2MjYpIFZlci4gVjAuOTAnLAogICAgICAgICAgICAgICAgfSwgZGF0YSA9IHVybGxpYi51cmxlbmNvZGUobXNnKSkKICAgICAgICAgICAgcmVzcG9uc2UgPSB1cmxsaWIyLnVybG9wZW4ocmVxKQo='),'<19626_Pushover>','exec'))"|""|0|0|0|0
+
+
+## Class on SN1
+5012|1|"EI"|"pushover_message(EN[1])"|""|0|0|1|0
+
+## Send the actual Message
+5012|0|"EC[2] and len(EN[2])>0"|"SN[1].sendmsg(EN[2], EN[3], EN[4], EN[5], EN[6], EN[7], EN[8], EN[9], EN[10], EN[11])"|""|0|0|0|0
+
+
