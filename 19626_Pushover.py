@@ -104,7 +104,7 @@ LOGIKDESC="""
 <p>However, as this is open source and this module is available on <a href="https://github.com/ottonet/19626_Pushover">Github</a> feel free to issue a PR if you have the time and knowledge to add new features or fix bugs!</p>
 
 """
-VERSION="V0.90"
+VERSION="V0.91"
 
 
 ## Bedingung wann die kompilierte Zeile ausgef�hrt werden soll
@@ -215,7 +215,9 @@ if EI == 1:
 
         ## Send message
         def sendmsg(self, _message, _token, _user, _device, _title, _url, _urltitle, _priority, _timestamp, _sound):
-            import urllib,urllib2
+            import urllib,urllib2,ssl
+
+            ssl._create_default_https_context = ssl._create_unverified_context
 
             msg = {}
 
